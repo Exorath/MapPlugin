@@ -16,6 +16,7 @@
 
 package com.exorath.plugin.map.commands;
 
+import com.exorath.plugin.map.CommandInfo;
 import com.exorath.plugin.map.SubCommandExecutor;
 import org.bukkit.command.CommandSender;
 
@@ -26,5 +27,10 @@ public class UnloadCommand  implements SubCommandExecutor {
     @Override
     public boolean onCommand(CommandSender cmd, String[] args) {
         return false;
+    }
+
+    @Override
+    public CommandInfo getCommandInfo() {
+        return new CommandInfo("unload", new String[]{"mapId"}, new String[0], "unloads the map locally");
     }
 }

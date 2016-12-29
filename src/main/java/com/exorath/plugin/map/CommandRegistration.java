@@ -16,6 +16,8 @@
 
 package com.exorath.plugin.map;
 
+import com.exorath.plugin.map.commands.*;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,29 +32,68 @@ import java.util.Map;
 /**
  * Created by toonsev on 12/29/2016.
  */
-public class CommandRegistration implements CommandExecutor{
+public class CommandRegistration implements CommandExecutor {
     private Map<String, SubCommandExecutor> subCommands = new HashMap<>();
-    public static void register(JavaPlugin plugin){
+
+
+    public CommandRegistration(){
+        register(new HelpCommand());
+        register(new CreateCommand());
+        register(new ListCommand());
+        register(new LoadCommand());
+        register(new SaveCommand());
+        register(new UnloadCommand());
+    }
+    private void register(SubCommandExecutor cmd){
+        subCommands.put(cmd.getCommandInfo().getLabel(), cmd);
+    }
+
+    public boolean onCommand(CommandSender commandSender, Command cmd, String alias, String[] args) {
+        if (args.length > 10)//Why not.
+            return false;
+        if (args.length == 0)
+            args = new String[]{"help"};//default to help command
+
+        if (subCommands.containsKey(args[0])) {
+            List<String> argsList = Arrays.asList(args);
+            argsList.remove(0);
+            return subCommands.get(args[0].toLowerCase()).onCommand(commandSender, argsList.toArray(new String[argsList.size()]));
+        }
+        return false;
+    }
+
+
+    public static void register(JavaPlugin plugin) {
         PluginCommand command = plugin.getCommand("maps");
         command.setExecutor(new CommandRegistration());
         command.setPermission("exorath.maps.cmd");
     }
 
-    public CommandRegistration(){
-        //TODO add commands to subCommands map
-    }
 
-    public boolean onCommand(CommandSender commandSender, Command cmd, String alias, String[] args) {
-        if(args.length > 10)//Why not.
-            return false;
-        if(args.length == 0)
-            args = new String[]{"help"};//default to help command
-
-        if(subCommands.containsKey(args[0])){
-            List<String> argsList = Arrays.asList(args);
-            argsList.remove(0);
-            return subCommands.get(args[0]).onCommand(commandSender, argsList.toArray(new String[argsList.size()]));
+    private class HelpCommand implements SubCommandExecutor {
+        @Override
+        public boolean onCommand(CommandSender cmdSender, String[] args) {
+            cmdSender.sendMessage(ChatColor.DARK_GRAY + "--------- " + ChatColor.DARK_GREEN + "Help: Maps" + ChatColor.DARK_GRAY + " ------------");
+            cmdSender.sendMessage(ChatColor.YELLOW + "/maps");
+            for(SubCommandExecutor subCommandExecutor : subCommands.values()){
+                CommandInfo commandInfo = subCommandExecutor.getCommandInfo();
+                String line = ChatColor.YELLOW + " " + commandInfo.getLabel();
+                if(commandInfo.getRequiredArgs().length > 0)
+                    for (String rArg : commandInfo.getRequiredArgs())
+                        line += " <" + rArg + ">";
+                if(commandInfo.getOptionalArgs().length > 0)
+                    for (String oArgs : commandInfo.getOptionalArgs())
+                        line += " (" + oArgs + ")";
+                line += ":" + ChatColor.WHITE + commandInfo.getDescription();
+                cmdSender.sendMessage(line);
+            }
+            cmdSender.sendMessage("---------------------------------------");
+            return true;
         }
-        return false;
+
+        @Override
+        public CommandInfo getCommandInfo() {
+            return new CommandInfo("help", new String[0], new String[0], "Returns list of all cmds");
+        }
     }
 }

@@ -16,6 +16,7 @@
 
 package com.exorath.plugin.map.commands;
 
+import com.exorath.plugin.map.CommandInfo;
 import com.exorath.plugin.map.SubCommandExecutor;
 import org.bukkit.command.CommandSender;
 
@@ -25,6 +26,12 @@ import org.bukkit.command.CommandSender;
 public class LoadCommand  implements SubCommandExecutor {
     @Override
     public boolean onCommand(CommandSender cmd, String[] args) {
+
         return false;
+    }
+
+    @Override
+    public CommandInfo getCommandInfo() {
+        return new CommandInfo("load", new String[]{"mapId", "envId"}, new String[]{"versionId"}, "Loads a map version in to edit");
     }
 }

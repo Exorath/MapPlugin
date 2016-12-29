@@ -29,6 +29,8 @@ Clicking on a version runs /maps load {mapId} {envId} {versionId}
 #####Requires exorath.maps.save.{mapId}.{envId}(wildcards allowed)
 If there is a version of this mapId currently open on the server, it will be saved.
 
+You can save a map to another environment then it was loaded from.
+
 
 ####/maps create {mapId}
 #####Requires exorath.maps.create.{mapId}  (wildcards allowed)
@@ -42,7 +44,7 @@ By default a void world generator will be used.
 Loads a map from the cloud, by default it will use the latest version of this map. The player will be teleported to the center of this map.
 
 ####/maps unload {mapId}
-#####Requires exorath.maps.unload.{mapId}.{envId}
+#####Requires exorath.maps.unload.{mapId}
 Unloads the map if you have permission to unload that envId, this will unload and remove the map completely from the server, though any saved versions remain.
 
 

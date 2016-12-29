@@ -22,5 +22,7 @@ import org.bukkit.command.CommandSender;
  * Created by toonsev on 12/29/2016.
  */
 public interface SubCommandExecutor {
-    boolean onCommand(CommandSender cmd, String[] args);
+    boolean onCommand(CommandSender cmdSender, String[] args);
+
+    CommandInfo getCommandInfo();
 }

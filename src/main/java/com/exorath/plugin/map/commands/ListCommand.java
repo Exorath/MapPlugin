@@ -16,15 +16,21 @@
 
 package com.exorath.plugin.map.commands;
 
+import com.exorath.plugin.map.CommandInfo;
 import com.exorath.plugin.map.SubCommandExecutor;
 import org.bukkit.command.CommandSender;
 
 /**
  * Created by toonsev on 12/29/2016.
  */
-public class ListCommand  implements SubCommandExecutor {
+public class ListCommand implements SubCommandExecutor {
     @Override
     public boolean onCommand(CommandSender cmd, String[] args) {
         return false;
+    }
+
+    @Override
+    public CommandInfo getCommandInfo() {
+        return new CommandInfo("list", new String[0], new String[0], "Opens the map list menu");
     }
 }
