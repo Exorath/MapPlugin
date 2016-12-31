@@ -16,6 +16,8 @@
 
 package com.exorath.plugin.map.res;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.HashMap;
 
 /**
@@ -23,5 +25,18 @@ import java.util.HashMap;
  */
 public class MapInfo {
     String mapName;
-    private HashMap<String, EnvInfo> envInfos;
+    @SerializedName("envs")
+    private HashMap<String, EnvInfo> envInfos = new HashMap<>();
+
+    public void setMapName(String mapName) {
+        this.mapName = mapName;
+    }
+
+    public String getMapName() {
+        return mapName;
+    }
+
+    public HashMap<String, EnvInfo> getEnvInfos() {
+        return envInfos;
+    }
 }

@@ -17,6 +17,7 @@
 package com.exorath.plugin.map;
 
 import com.exorath.plugin.map.commands.*;
+import com.exorath.plugin.map.impl.MapServiceListProvider;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -36,7 +37,7 @@ public class CommandRegistration implements CommandExecutor {
     public CommandRegistration(){
         register(new HelpCommand());
         register(new CreateCommand());
-        register(new ListCommand());
+        register(new ListCommand(new MapServiceListProvider("http://localhost:8080", "test")));//testing
         register(new LoadCommand());
         register(new SaveCommand());
         register(new UnloadCommand());

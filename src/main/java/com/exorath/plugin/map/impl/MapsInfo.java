@@ -24,7 +24,7 @@ import java.util.HashMap;
  * Created by toonsev on 12/29/2016.
  */
 public class MapsInfo {
-    private HashMap<String, MapInfo> maps;
+    private HashMap<String, MapInfo> maps = new HashMap<>();
     private boolean truncated;
 
     public HashMap<String, MapInfo> getMaps() {

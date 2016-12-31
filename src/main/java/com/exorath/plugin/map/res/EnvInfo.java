@@ -23,5 +23,14 @@ import java.util.Date;
  */
 public class EnvInfo {
     Integer size;
-    Date lastModified;
+    long lastModified;
+
+
+    public Integer getSize() {
+        return size;
+    }
+
+    public Date getLastModified() {
+        return new Date(lastModified);
+    }
 }
