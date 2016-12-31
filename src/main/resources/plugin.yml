@@ -1,0 +1,8 @@
+name: ExoMaps
+version: 0.0.1
+main: com.exorath.plugin.map.Main
+
+commands:
+  exomaps:
+    description: type /exomaps help for explanation
+    aliases: [maps, map, em]

@@ -24,10 +24,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by toonsev on 12/29/2016.
@@ -55,7 +52,7 @@ public class CommandRegistration implements CommandExecutor {
             args = new String[]{"help"};//default to help command
 
         if (subCommands.containsKey(args[0])) {
-            List<String> argsList = Arrays.asList(args);
+            List<String> argsList =  new ArrayList<>(Arrays.asList(args));
             argsList.remove(0);
             return subCommands.get(args[0].toLowerCase()).onCommand(commandSender, argsList.toArray(new String[argsList.size()]));
         }
@@ -64,7 +61,7 @@ public class CommandRegistration implements CommandExecutor {
 
 
     public static void register(JavaPlugin plugin) {
-        PluginCommand command = plugin.getCommand("maps");
+        PluginCommand command = plugin.getCommand("exomaps");
         command.setExecutor(new CommandRegistration());
         command.setPermission("exorath.maps.cmd");
     }
@@ -73,21 +70,25 @@ public class CommandRegistration implements CommandExecutor {
     private class HelpCommand implements SubCommandExecutor {
         @Override
         public boolean onCommand(CommandSender cmdSender, String[] args) {
-            cmdSender.sendMessage(ChatColor.DARK_GRAY + "--------- " + ChatColor.DARK_GREEN + "Help: Maps" + ChatColor.DARK_GRAY + " ------------");
-            cmdSender.sendMessage(ChatColor.YELLOW + "/maps");
+            cmdSender.sendMessage(ChatColor.DARK_GRAY + "--------- " + ChatColor.DARK_GREEN + "Help: ExoMaps" + ChatColor.DARK_GRAY + " ------------");
+            cmdSender.sendMessage(ChatColor.GOLD + "/exomaps");
             for(SubCommandExecutor subCommandExecutor : subCommands.values()){
                 CommandInfo commandInfo = subCommandExecutor.getCommandInfo();
-                String line = ChatColor.YELLOW + " " + commandInfo.getLabel();
-                if(commandInfo.getRequiredArgs().length > 0)
+                String line = ChatColor.GOLD + " " + commandInfo.getLabel();
+                if(commandInfo.getRequiredArgs().length > 0) {
+                    line += ChatColor.GRAY;
                     for (String rArg : commandInfo.getRequiredArgs())
                         line += " <" + rArg + ">";
-                if(commandInfo.getOptionalArgs().length > 0)
+                }
+                if(commandInfo.getOptionalArgs().length > 0) {
+                    line += ChatColor.DARK_GRAY;
                     for (String oArgs : commandInfo.getOptionalArgs())
                         line += " (" + oArgs + ")";
-                line += ":" + ChatColor.WHITE + commandInfo.getDescription();
+                }
+                line += ChatColor.DARK_GREEN + ": " + commandInfo.getDescription();
                 cmdSender.sendMessage(line);
             }
-            cmdSender.sendMessage("---------------------------------------");
+            cmdSender.sendMessage(ChatColor.DARK_GRAY + "----------------------------------");
             return true;
         }
 
