@@ -16,7 +16,7 @@
 
 package com.exorath.plugin.map.commands;
 
-import com.exorath.plugin.map.CommandInfo;
+import com.exorath.plugin.map.res.CommandInfo;
 import com.exorath.plugin.map.SubCommandExecutor;
 import org.bukkit.command.CommandSender;
 

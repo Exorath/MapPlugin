@@ -16,20 +16,28 @@
 
 package com.exorath.plugin.map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Created by toonsev on 12/29/2016.
  */
-public class Main extends JavaPlugin{
+public class Main extends JavaPlugin {
+    private static InventoryRegistry inventoryRegistry;
 
     @Override
     public void onEnable() {
+        inventoryRegistry = new InventoryRegistry();
+        Bukkit.getPluginManager().registerEvents(inventoryRegistry, this);
         CommandRegistration.register(this);
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
+    }
+
+    public static InventoryRegistry getInventoryRegistry() {
+        return inventoryRegistry;
     }
 }

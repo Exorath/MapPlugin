@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Exorath
+ * Copyright 2017 Exorath
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -14,24 +14,20 @@
  *    limitations under the License.
  */
 
-package com.exorath.plugin.map.commands;
+package com.exorath.plugin.map;
 
-import com.exorath.plugin.map.res.CommandInfo;
-import com.exorath.plugin.map.SubCommandExecutor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 
 /**
- * Created by toonsev on 12/29/2016.
+ * Created by toonsev on 1/2/2017.
  */
-public class LoadCommand  implements SubCommandExecutor {
-    @Override
-    public boolean onCommand(CommandSender cmd, String[] args) {
+public interface InventoryListener {
+    Inventory getInventory();
 
-        return false;
-    }
+    void onClick(InventoryClickEvent event);
 
-    @Override
-    public CommandInfo getCommandInfo() {
-        return new CommandInfo("load", new String[]{"mapId", "envId"}, new String[]{"versionId"}, "Loads a map version in to edit");
-    }
+
+    void onClose(Player player);
 }

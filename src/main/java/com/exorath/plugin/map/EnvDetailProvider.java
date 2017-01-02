@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Exorath
+ * Copyright 2017 Exorath
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -16,14 +16,11 @@
 
 package com.exorath.plugin.map;
 
-import com.exorath.plugin.map.res.CommandInfo;
-import org.bukkit.command.CommandSender;
+import com.exorath.plugin.map.res.EnvDetail;
 
 /**
- * Created by toonsev on 12/29/2016.
+ * Created by toonsev on 1/2/2017.
  */
-public interface SubCommandExecutor {
-    boolean onCommand(CommandSender cmdSender, String[] args);
-
-    CommandInfo getCommandInfo();
+public interface EnvDetailProvider {
+    EnvDetail getEnvDetail();
 }

@@ -43,6 +43,7 @@ public class MapServiceListProvider implements MapListProvider {
         this.accountId = accountId;
     }
 
+    //not too efficient right now, but let's not overcomplicate -_-
     @Override
     public MapInfo getMap(Integer index) {
         if (mapsByIndex.containsKey(index))

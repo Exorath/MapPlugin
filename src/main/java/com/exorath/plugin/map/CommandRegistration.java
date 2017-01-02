@@ -18,6 +18,7 @@ package com.exorath.plugin.map;
 
 import com.exorath.plugin.map.commands.*;
 import com.exorath.plugin.map.impl.MapServiceListProvider;
+import com.exorath.plugin.map.res.CommandInfo;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
