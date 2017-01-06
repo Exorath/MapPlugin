@@ -20,4 +20,34 @@ package com.exorath.plugin.map.res;
  * Created by toonsev on 1/2/2017.
  */
 public class Version {
+    String id;
+    long lastUpdated;
+    long size;
+    boolean latest;
+
+    public Version() {
+    }
+
+    public Version(String id, long lastUpdated, long size, boolean latest) {
+        this.id = id;
+        this.lastUpdated = lastUpdated;
+        this.size = size;
+        this.latest = latest;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public long getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public long getSize() {
+        return size;
+    }
+
+    public boolean isLatest() {
+        return latest;
+    }
 }

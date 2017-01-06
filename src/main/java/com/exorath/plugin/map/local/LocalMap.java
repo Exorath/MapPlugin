@@ -14,14 +14,33 @@
  *    limitations under the License.
  */
 
-package com.exorath.plugin.map.res;
+package com.exorath.plugin.map.local;
 
-import java.util.List;
+import org.bukkit.World;
 
 /**
- * Created by toonsev on 1/2/2017.
+ * Created by toonsev on 1/4/2017.
  */
-public interface EnvDetail {
-    List<Version> getVersions(String lastVersionId, int amount);
-    boolean isTruncated();
+public class LocalMap {
+    private String mapId;
+    private String envId;
+    private World world;
+
+    public LocalMap(String mapId, String envId, World world){
+        this.mapId = mapId;
+        this.envId = envId;
+        this.world = world;
+    }
+
+    public String getMapId() {
+        return mapId;
+    }
+
+    public String getEnvId() {
+        return envId;
+    }
+
+    public World getWorld() {
+        return world;
+    }
 }

@@ -14,14 +14,23 @@
  *    limitations under the License.
  */
 
-package com.exorath.plugin.map.res;
+package com.exorath.plugin.map.worldgen;
 
-import java.util.List;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.generator.ChunkGenerator;
+
+import java.util.Random;
 
 /**
- * Created by toonsev on 1/2/2017.
+ * Created by toonsev on 1/3/2017.
  */
-public interface EnvDetail {
-    List<Version> getVersions(String lastVersionId, int amount);
-    boolean isTruncated();
+public class VoidGenerator extends ChunkGenerator {
+    @Override
+    public ChunkData generateChunkData(World world, Random random, int x, int z, BiomeGrid biome) {
+        ChunkData chunkData = createChunkData(world);
+        if(x == 0 && z == 0)
+            chunkData.setBlock(0, 60, 0, Material.BEDROCK);
+        return chunkData;
+    }
 }

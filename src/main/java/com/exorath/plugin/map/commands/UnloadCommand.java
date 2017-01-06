@@ -16,17 +16,36 @@
 
 package com.exorath.plugin.map.commands;
 
+import com.exorath.plugin.map.local.LocalMaps;
 import com.exorath.plugin.map.res.CommandInfo;
 import com.exorath.plugin.map.SubCommandExecutor;
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 /**
  * Created by toonsev on 12/29/2016.
  */
-public class UnloadCommand  implements SubCommandExecutor {
+public class UnloadCommand implements SubCommandExecutor {
+    private LocalMaps localMaps;
+
+    public UnloadCommand(LocalMaps localMaps) {
+        this.localMaps = localMaps;
+    }
+
     @Override
-    public boolean onCommand(CommandSender cmd, String[] args) {
-        return false;
+    public boolean onCommand(CommandSender commandSender, String[] args) {
+        if (args.length < 1) {
+            commandSender.sendMessage(ChatColor.RED + "Not enough arguments.");
+            return false;
+        }
+        String mapId = args[0];
+        boolean unloaded = localMaps.unloadMap(mapId);
+        if (unloaded)
+            commandSender.sendMessage(ChatColor.GREEN + "The map is unloaded (if you didn't save it it's gone).");
+        else
+            commandSender.sendMessage(ChatColor.RED + "The map failed to unload.");
+        return true;
     }
 
     @Override

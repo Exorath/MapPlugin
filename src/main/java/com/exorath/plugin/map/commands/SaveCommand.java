@@ -16,17 +16,45 @@
 
 package com.exorath.plugin.map.commands;
 
+import com.exorath.plugin.map.MapUploadProvider;
 import com.exorath.plugin.map.res.CommandInfo;
 import com.exorath.plugin.map.SubCommandExecutor;
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 
 /**
  * Created by toonsev on 12/29/2016.
  */
-public class SaveCommand  implements SubCommandExecutor {
+public class SaveCommand implements SubCommandExecutor {
+    MapUploadProvider mapUploadProvider;
+
+    public SaveCommand(MapUploadProvider mapUploadProvider) {
+        this.mapUploadProvider = mapUploadProvider;
+    }
+
     @Override
-    public boolean onCommand(CommandSender cmd, String[] args) {
-        return false;
+    public boolean onCommand(CommandSender commandSender, String[] args) {
+        if (args.length < 2) {
+            commandSender.sendMessage(ChatColor.RED + "Not enough arguments.");
+            return false;
+        }
+        String mapId = args[0];
+        String envId = args[1];
+
+        World world = Bukkit.getWorld(mapId);
+        if (world == null) {
+            commandSender.sendMessage(ChatColor.RED + "No world loaded with the mapId.");
+            return true;
+        }
+        Bukkit.unloadWorld(world, true);
+        String versionId = mapUploadProvider.upload(world.getWorldFolder(), mapId, envId);
+        if(versionId != null)
+            commandSender.sendMessage(ChatColor.GREEN + "Successfully uploaded the map under the version: " + versionId);
+        else
+            commandSender.sendMessage(ChatColor.RED + "It appears like the upload failed, check the console.");
+        return true;
     }
 
     @Override

@@ -14,14 +14,13 @@
  *    limitations under the License.
  */
 
-package com.exorath.plugin.map.res;
+package com.exorath.plugin.map;
 
-import java.util.List;
+import java.io.File;
 
 /**
- * Created by toonsev on 1/2/2017.
+ * Created by toonsev on 1/5/2017.
  */
-public interface EnvDetail {
-    List<Version> getVersions(String lastVersionId, int amount);
-    boolean isTruncated();
+public interface MapDownloadProvider {
+    boolean downloadTo(String mapId, String envId, String versionId, File mapDirectory);
 }

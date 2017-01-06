@@ -16,7 +16,10 @@
 
 package com.exorath.plugin.map;
 
+import com.exorath.plugin.map.local.LocalMaps;
+import com.exorath.plugin.map.worldgen.VoidGenerator;
 import org.bukkit.Bukkit;
+import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -24,12 +27,14 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class Main extends JavaPlugin {
     private static InventoryRegistry inventoryRegistry;
+    private LocalMaps localMaps;
 
     @Override
     public void onEnable() {
+        localMaps = new LocalMaps();
         inventoryRegistry = new InventoryRegistry();
         Bukkit.getPluginManager().registerEvents(inventoryRegistry, this);
-        CommandRegistration.register(this);
+        CommandRegistration.register(this, localMaps);
     }
 
     @Override
@@ -39,5 +44,10 @@ public class Main extends JavaPlugin {
 
     public static InventoryRegistry getInventoryRegistry() {
         return inventoryRegistry;
+    }
+
+    @Override
+    public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
+        return new VoidGenerator();
     }
 }

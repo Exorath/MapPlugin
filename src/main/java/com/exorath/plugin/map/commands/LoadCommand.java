@@ -16,18 +16,57 @@
 
 package com.exorath.plugin.map.commands;
 
+import com.exorath.plugin.map.MapDownloadProvider;
+import com.exorath.plugin.map.local.LocalMaps;
 import com.exorath.plugin.map.res.CommandInfo;
 import com.exorath.plugin.map.SubCommandExecutor;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.WorldCreator;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.io.File;
 
 /**
  * Created by toonsev on 12/29/2016.
  */
-public class LoadCommand  implements SubCommandExecutor {
-    @Override
-    public boolean onCommand(CommandSender cmd, String[] args) {
+public class LoadCommand implements SubCommandExecutor {
+    private LocalMaps localMaps;
+    private MapDownloadProvider mapDownloadProvider;
 
-        return false;
+    public LoadCommand(LocalMaps localMaps, MapDownloadProvider mapDownloadProvider) {
+        this.localMaps = localMaps;
+        this.mapDownloadProvider = mapDownloadProvider;
+    }
+
+    @Override
+    public boolean onCommand(CommandSender commandSender, String[] args) {
+        if (args.length < 2) {
+            commandSender.sendMessage("Insufficient arguments.");
+            return false;
+        }
+        String mapId = args[0];
+        String envId = args[1];
+        String versionId = args.length >= 3 ? args[2] : null;
+        if(localMaps.mapLoaded(mapId) || new File(Bukkit.getWorldContainer(), mapId).isDirectory()){
+            commandSender.sendMessage(ChatColor.RED + "A version of this map is already loaded in.");
+            commandSender.sendMessage(ChatColor.GRAY + "Please type /map unload " + mapId + " first.");
+            return true;
+        }
+        File worldDir = new File(Bukkit.getWorldContainer(), mapId);
+        worldDir.mkdirs();
+        boolean success = mapDownloadProvider.downloadTo(mapId, envId, versionId, worldDir);
+        if (success == true) {
+            commandSender.sendMessage(ChatColor.GREEN + "Successfully downloaded map. Creating it now...");
+            Bukkit.createWorld(new WorldCreator(mapId));
+            if (commandSender instanceof Player)
+                ((Player) commandSender).performCommand("exomaps create " + mapId);
+            return true;
+        } else {
+            commandSender.sendMessage(ChatColor.RED + "failed to download map, probably due to the saved zip file being corrupted");
+            return false;
+        }
     }
 
     @Override

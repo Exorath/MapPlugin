@@ -17,7 +17,11 @@
 package com.exorath.plugin.map;
 
 import com.exorath.plugin.map.commands.*;
+import com.exorath.plugin.map.impl.MapServiceEnvDetailProvider;
 import com.exorath.plugin.map.impl.MapServiceListProvider;
+import com.exorath.plugin.map.impl.MapServiceMapDownloadProvider;
+import com.exorath.plugin.map.impl.MapServiceMapUploadProvider;
+import com.exorath.plugin.map.local.LocalMaps;
 import com.exorath.plugin.map.res.CommandInfo;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -32,16 +36,19 @@ import java.util.*;
  * Created by toonsev on 12/29/2016.
  */
 public class CommandRegistration implements CommandExecutor {
+    private LocalMaps localMaps;
     private Map<String, SubCommandExecutor> subCommands = new HashMap<>();
 
 
-    public CommandRegistration(){
+    public CommandRegistration(LocalMaps localMaps){
+        this.localMaps = localMaps;
+
         register(new HelpCommand());
-        register(new CreateCommand());
-        register(new ListCommand(new MapServiceListProvider("http://localhost:8080", "test")));//testing
-        register(new LoadCommand());
-        register(new SaveCommand());
-        register(new UnloadCommand());
+        register(new CreateCommand(localMaps));
+        register(new ListCommand(new MapServiceListProvider("http://localhost:8080", "test"), new MapServiceEnvDetailProvider("http://localhost:8080", "test")));//testing
+        register(new LoadCommand(localMaps, new MapServiceMapDownloadProvider("http://localhost:8080", "test")));
+        register(new SaveCommand(new MapServiceMapUploadProvider("http://localhost:8080", "test")));
+        register(new UnloadCommand(localMaps));
     }
     private void register(SubCommandExecutor cmd){
         subCommands.put(cmd.getCommandInfo().getLabel(), cmd);
@@ -62,9 +69,9 @@ public class CommandRegistration implements CommandExecutor {
     }
 
 
-    public static void register(JavaPlugin plugin) {
+    public static void register(JavaPlugin plugin, LocalMaps localMaps) {
         PluginCommand command = plugin.getCommand("exomaps");
-        command.setExecutor(new CommandRegistration());
+        command.setExecutor(new CommandRegistration(localMaps));
         command.setPermission("exorath.maps.cmd");
     }
 

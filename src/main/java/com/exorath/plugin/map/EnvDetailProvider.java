@@ -22,5 +22,5 @@ import com.exorath.plugin.map.res.EnvDetail;
  * Created by toonsev on 1/2/2017.
  */
 public interface EnvDetailProvider {
-    EnvDetail getEnvDetail();
+    EnvDetail getEnvDetail(String mapName, String envName);
 }
