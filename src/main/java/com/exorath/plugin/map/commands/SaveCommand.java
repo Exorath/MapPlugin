@@ -48,7 +48,8 @@ public class SaveCommand implements SubCommandExecutor {
             commandSender.sendMessage(ChatColor.RED + "No world loaded with the mapId.");
             return true;
         }
-        Bukkit.unloadWorld(world, true);
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "save-all");//for now we do this to ensure save success
+        
         String versionId = mapUploadProvider.upload(world.getWorldFolder(), mapId, envId);
         if(versionId != null)
             commandSender.sendMessage(ChatColor.GREEN + "Successfully uploaded the map under the version: " + versionId);

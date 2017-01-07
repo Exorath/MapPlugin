@@ -22,6 +22,7 @@ import com.exorath.plugin.map.res.CommandInfo;
 import com.exorath.plugin.map.SubCommandExecutor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.command.CommandSender;
@@ -59,7 +60,7 @@ public class CreateCommand implements SubCommandExecutor {
             commandSender.sendMessage(ChatColor.GREEN + "World created, teleporting you now.");
             commandSender.sendMessage(ChatColor.GRAY + "If you wish to save the world use the '/maps save " + mapId + " <envId>' command.");
             if(commandSender instanceof Player)
-                ((Player) commandSender).teleport(map.getWorld().getSpawnLocation());
+                ((Player) commandSender).teleport(new Location(map.getWorld(), 0 , 70, 0));
         }
         return true;
     }

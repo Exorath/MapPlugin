@@ -21,9 +21,10 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.request.GetRequest;
 import org.bukkit.Bukkit;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+
+import org.bukkit.material.TrapDoor;
+import org.omg.CORBA.TRANSACTION_MODE;
 import org.zeroturnaround.zip.ZipUtil;
 
 
@@ -53,23 +54,45 @@ public class MapServiceMapDownloadProvider implements MapDownloadProvider {
                     .routeParam("envId", envId);
             if (versionId != null)
                 req.queryString("versionId", versionId);
-            try(InputStream inputStream = req.asBinary().getBody()){
+            try (InputStream inputStream = req.asBinary().getBody()) {
                 unZip(inputStream, mapDirectory);
+                System.out.println("Size: " + getFileSize(mapDirectory));
                 return true;
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 return false;
 
             }
-
-
         } catch (Exception e) {
             Bukkit.broadcastMessage("Exomaps error: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
     }
-    private void unZip(InputStream inputStream, File outputFolder) throws IOException{
-        ZipUtil.unpack(inputStream, new File("/tmp/demo"));
+
+    private void unZip(InputStream inputStream, File outputFolder) throws IOException {
+        File temp = new File("templol");
+        temp.createNewFile();
+        FileOutputStream fileOutputStream = new FileOutputStream(temp);
+        int cByte;
+        while ((cByte = inputStream.read()) != -1) {
+            fileOutputStream.write(cByte);
+        }
+        fileOutputStream.close();
+        ZipUtil.unpack(temp, outputFolder);
+    }
+
+    private long getFileSize(File folder) {
+        System.out.println("Folder: " + folder.getName());
+        long foldersize = 0;
+        File[] filelist = folder.listFiles();
+        for (int i = 0; i < filelist.length; i++) {
+            if (filelist[i].isDirectory()) {
+                foldersize += getFileSize(filelist[i]);
+            } else {
+                foldersize += filelist[i].length();
+            }
+        }
+        return foldersize;
     }
 }

@@ -59,7 +59,6 @@ public class LoadCommand implements SubCommandExecutor {
         boolean success = mapDownloadProvider.downloadTo(mapId, envId, versionId, worldDir);
         if (success == true) {
             commandSender.sendMessage(ChatColor.GREEN + "Successfully downloaded map. Creating it now...");
-            Bukkit.createWorld(new WorldCreator(mapId));
             if (commandSender instanceof Player)
                 ((Player) commandSender).performCommand("exomaps create " + mapId);
             return true;

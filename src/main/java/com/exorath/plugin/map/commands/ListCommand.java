@@ -147,8 +147,6 @@ public class ListCommand implements SubCommandExecutor {
 
     private class EnvsListInv implements InventoryListener {
         private Inventory inventory;
-        private int page = 0;
-        private String envId;
         private MapInfo mapInfo;
         private Player player;
 
@@ -157,6 +155,7 @@ public class ListCommand implements SubCommandExecutor {
         public EnvsListInv(Player player, MapInfo mapInfo) {
             this.player = player;
             this.mapInfo = mapInfo;
+
             inventory = Bukkit.createInventory(null, 36);
             fill();
             Main.getInventoryRegistry().register(this);
@@ -200,6 +199,7 @@ public class ListCommand implements SubCommandExecutor {
                 return;
             event.setCancelled(true);
             if (envIdBySlot.containsKey(event.getSlot())) {
+                String envId = envIdBySlot.get(event.getSlot());
                 if (event.getClick() == ClickType.RIGHT) {
                     player.performCommand("exomaps load " + mapInfo.getMapName() + " " + envId);
                     player.closeInventory();
