@@ -23,14 +23,17 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
 
 /**
  * Created by toonsev on 12/29/2016.
  */
 public class SaveCommand implements SubCommandExecutor {
-    MapUploadProvider mapUploadProvider;
+    private Plugin plugin;
+    private MapUploadProvider mapUploadProvider;
 
-    public SaveCommand(MapUploadProvider mapUploadProvider) {
+    public SaveCommand(Plugin plugin, MapUploadProvider mapUploadProvider) {
+        this.plugin = plugin;
         this.mapUploadProvider = mapUploadProvider;
     }
 
@@ -48,13 +51,29 @@ public class SaveCommand implements SubCommandExecutor {
             commandSender.sendMessage(ChatColor.RED + "No world loaded with the mapId.");
             return true;
         }
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "save-all");//for now we do this to ensure save success
-        
-        String versionId = mapUploadProvider.upload(world.getWorldFolder(), mapId, envId);
-        if(versionId != null)
-            commandSender.sendMessage(ChatColor.GREEN + "Successfully uploaded the map under the version: " + versionId);
-        else
-            commandSender.sendMessage(ChatColor.RED + "It appears like the upload failed, check the console.");
+        commandSender.sendMessage(ChatColor.GRAY + "Saving world...");
+        world.save();
+       // Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "save-all");//for now we do this to ensure save success
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            try {
+                long lastModified = world.getWorldFolder().lastModified();
+                Thread.sleep(5000);
+                while (lastModified != world.getWorldFolder().lastModified()) {
+                    commandSender.sendMessage(ChatColor.GRAY + "Still saving...");
+                    lastModified = world.getWorldFolder().lastModified();
+                    Thread.sleep(5000);
+                }
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    String versionId = mapUploadProvider.upload(world.getWorldFolder(), mapId, envId);
+                    if (versionId != null)
+                        commandSender.sendMessage(ChatColor.GREEN + "Successfully uploaded the map under the version: " + versionId);
+                    else
+                        commandSender.sendMessage(ChatColor.RED + "It appears like the upload failed, check the console.");
+                });
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
         return true;
     }
 

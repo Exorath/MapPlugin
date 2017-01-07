@@ -28,6 +28,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
@@ -36,18 +37,20 @@ import java.util.*;
  * Created by toonsev on 12/29/2016.
  */
 public class CommandRegistration implements CommandExecutor {
+    private Plugin plugin;
     private LocalMaps localMaps;
     private Map<String, SubCommandExecutor> subCommands = new HashMap<>();
 
 
-    public CommandRegistration(LocalMaps localMaps){
+    public CommandRegistration(Plugin plugin, LocalMaps localMaps){
+        this.plugin = plugin;
         this.localMaps = localMaps;
 
         register(new HelpCommand());
         register(new CreateCommand(localMaps));
         register(new ListCommand(new MapServiceListProvider("http://localhost:8080", "test"), new MapServiceEnvDetailProvider("http://localhost:8080", "test")));//testing
         register(new LoadCommand(localMaps, new MapServiceMapDownloadProvider("http://localhost:8080", "test")));
-        register(new SaveCommand(new MapServiceMapUploadProvider("http://localhost:8080", "test")));
+        register(new SaveCommand(plugin, new MapServiceMapUploadProvider("http://localhost:8080", "test")));
         register(new UnloadCommand(localMaps));
     }
     private void register(SubCommandExecutor cmd){
@@ -71,7 +74,7 @@ public class CommandRegistration implements CommandExecutor {
 
     public static void register(JavaPlugin plugin, LocalMaps localMaps) {
         PluginCommand command = plugin.getCommand("exomaps");
-        command.setExecutor(new CommandRegistration(localMaps));
+        command.setExecutor(new CommandRegistration(plugin, localMaps));
         command.setPermission("exorath.maps.cmd");
     }
 
