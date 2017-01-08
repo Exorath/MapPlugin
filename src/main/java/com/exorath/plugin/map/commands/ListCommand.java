@@ -235,7 +235,6 @@ public class ListCommand implements SubCommandExecutor {
             mapInfoBySlot.clear();
             for (int i = 0; i < 27; i++) {
                 MapInfo mapInfo = mapListProvider.getMap(startIndex + i);
-                Bukkit.broadcastMessage("info:" + mapInfo);
                 if (mapInfo == null)
                     break;
                 ItemStack is = new ItemStack(Material.MAP, 1);
