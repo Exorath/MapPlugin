@@ -44,7 +44,7 @@ public class InventoryRegistry implements Listener {
     }
 
     @EventHandler
-    public void onCose(InventoryCloseEvent event) {
+    public void onClose(InventoryCloseEvent event) {
         if (!(event.getPlayer() instanceof Player))
             return;
         InventoryListener listener = inventories.get(event.getInventory());
