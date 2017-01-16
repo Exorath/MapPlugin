@@ -1,4 +1,4 @@
-# MapPlugin
+# MapPlugin [![CircleCI](https://circleci.com/gh/Exorath/MapPlugin.svg?style=svg)](https://circleci.com/gh/Exorath/MapPlugin)
 Spigot plugin client for the MapService.
 
 
