@@ -1,4 +1,4 @@
-# MapPlugin
+# MapPlugin [![Build Status](https://travis-ci.org/Exorath/MapPlugin.svg?branch=master)](https://travis-ci.org/Exorath/MapPlugin)
 Spigot plugin client for the MapService.
 
 
