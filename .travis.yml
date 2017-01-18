@@ -9,7 +9,7 @@ deploy:
   api_key:
     secure: kcgP9jYaCYIG0EzakekgpWZbk28kq9iDTngqBPoRaPyXHiKXMu47z7SaKp166ljQkFbJMMo/zDB66aiQnPi7QxJgE7a3ZXVzLKwi9XQpStR4AhTwPAHwkFT6RvcqAKQ7CVOKkcHMg815Mqoxo6Tgd0U7rst/5X4XlbF6AsYIo97sbbaU4hvpGHD6aY/EuYlyxtV44pic2dhKUmiqMxGUN4MeEac4QHXVUkvHRuwHhdSmfGpmUNKIucSo7URxaAB2FFxEyLPm+VDTOR8ZwY48iFzspnchtOmUDfREIQBqcnxn0cytlGg7ujlw2xgkXmdfEnLlkC9fL5TtrW7YZn4QtOTvjk+31/Y7Nud7JdDOTb8NPLlw3sEAbpSHVE5PZ2CiQUJsFT3zGnOgNh4/jBRh8aG8d+b7+fDO3XjWNWmKIq7zBFPcZGkXFiH4ZPKr/7bRW21O2tK6ERdjwrZp2dyaXPX7dtYxk3RMmil4nSCQuOh+AttTKFLfMjWs/poA3+0AA32nPeXIe7wy05P/uYsKKI/BA1eAdViu6VPlSNrmgNWO5wEJqN2R2bSoBbkrcuOuiwJEshxOYjBi09epOFrg/kIl5uxNdpmKJoj7T2G+MVSgRG/sZX4l66yJYmNv1wxwUjF2aAhv/PF2kFmvyHXVe+G5obzKwum0LjDVqvkjaNg=
   file: target/*.jar
+  skip_cleanup: true
+  file_glob: true
   on:
     tags: true
-  skip_cleanup: true
-  file_glob: true 
