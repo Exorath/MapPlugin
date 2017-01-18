@@ -22,7 +22,7 @@
 
     <groupId>com.exorath</groupId>
     <artifactId>MapPlugin</artifactId>
-    <version>0.1.2</version>
+    <version>0.1.2</version> 
     <build>
         <plugins>
             <plugin>
