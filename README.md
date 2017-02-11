@@ -46,4 +46,7 @@ Loads a map from the cloud, by default it will use the latest version of this ma
 #####Requires exorath.maps.unload.{mapId}
 Unloads the map if you have permission to unload that envId, this will unload and remove the map completely from the server, though any saved versions remain.
 
+## World generators
+Put an exo_generator.txt file in the world directory with the generator's name in it.
 
+##
